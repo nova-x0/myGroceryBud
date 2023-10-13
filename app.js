@@ -1,4 +1,6 @@
-// ****** select items **********
+
+  
+    // ****** select items **********
 
 const form = document.querySelector(".grocery-form");
 const alert = document.querySelector(".alert");
@@ -216,3 +218,46 @@ function createListItem(id, value) {
   // append child
   list.appendChild(element);
 }
+
+
+
+
+
+
+
+
+
+const downloadImageBtn = document.querySelector(".download-image-btn");
+
+downloadImageBtn.addEventListener("click", downloadImage);
+
+function downloadImage() {
+  const groceryContainer = document.querySelector(".grocery-container");
+  const clearBtn = document.querySelector(".clear-btn");
+
+  if (groceryContainer.classList.contains("show-container")) {
+    // Hide the "Clear Items" button
+    clearBtn.classList.add("hide-clear-btn");
+
+    html2canvas(groceryContainer).then(canvas => {
+      // Convert the canvas to a data URL in JPEG format
+      const imageDataURL = canvas.toDataURL("image/jpeg");
+
+      // Create a link element for downloading the image
+      const a = document.createElement("a");
+      a.href = imageDataURL;
+      a.download = "grocery-list.jpg";
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+
+      // Restore the "Clear Items" button
+      clearBtn.classList.remove("hide-clear-btn");
+
+      displayAlert("Image downloaded successfully!", "success");
+    });
+  } else {
+    displayAlert("The list is empty, cannot create an image.", "danger");
+  }
+}
+
